@@ -21,6 +21,9 @@ class _ProdukDetailViewState extends State<ProdukDetailView> {
       body: Center(
         child: Column(
           children: [
+            Image.network(
+                'https://miro.medium.com/v2/resize:fit:640/format:webp/0*ObJbOfJnx4QIPUq9.png'),
+            const Padding(padding: EdgeInsets.all(16.0)),
             Text(
               "Kode : ${widget.produk!.kodeproduk}",
               style: const TextStyle(fontSize: 20.0),
@@ -33,6 +36,7 @@ class _ProdukDetailViewState extends State<ProdukDetailView> {
               "Harga : ${widget.produk!.hargaproduk}",
               style: const TextStyle(fontSize: 20.0),
             ),
+            const Padding(padding: EdgeInsets.all(16.0)),
             _tombolHapusEdit()
           ],
         ),

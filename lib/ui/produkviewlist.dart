@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tokoumb/bloc/produk_bloc.dart';
 import 'package:tokoumb/helper/user_info.dart';
 import 'package:tokoumb/model/produkmodel.dart';
 import 'package:tokoumb/ui/loginview.dart';
@@ -41,38 +42,73 @@ class _ProdukViewListState extends State<ProdukViewList> {
               title: const Text("Logout"),
               trailing: const Icon(Icons.logout),
               onTap: () async {
-                await UserInfo().logout();
-                // ignore: use_build_context_synchronously
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginView()));
+                await UserInfo().logout().then((value) => {
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginView()))
+                    });
               },
             )
           ],
         ),
       ),
-      body: ListView(
-        children: [
-          ItemProduk(
-              produk: ProdukModel(
-                  id: 1,
-                  kodeproduk: "BRG001",
-                  namaproduk: "Macbook Pro M1",
-                  hargaproduk: 10000000)),
-          ItemProduk(
-              produk: ProdukModel(
-                  id: 1,
-                  kodeproduk: "BRG002",
-                  namaproduk: "Macbook Pro M2",
-                  hargaproduk: 10000000)),
-          ItemProduk(
-              produk: ProdukModel(
-                  id: 1,
-                  kodeproduk: "BRG003",
-                  namaproduk: "Macbook Air M2",
-                  hargaproduk: 10000000)),
-        ],
+      body: FutureBuilder<List>(
+        future: ProdukBloc.getProduk(),
+        builder: (context, snapshot) {
+          // ignore: avoid_print
+          if (snapshot.hasError) print(snapshot.error);
+          return snapshot.hasData
+              ? ListProduk(
+                  list: snapshot.data,
+                )
+              : const Center(
+                  child: CircularProgressIndicator(),
+                );
+        },
       ),
+
+      // body: ListView(
+      //   children: [
+      //     ItemProduk(
+      //         produk: ProdukModel(
+      //             id: 1,
+      //             kodeproduk: "BRG001",
+      //             namaproduk: "Macbook Pro M1",
+      //             hargaproduk: 10000000)),
+      //     ItemProduk(
+      //         produk: ProdukModel(
+      //             id: 1,
+      //             kodeproduk: "BRG002",
+      //             namaproduk: "Macbook Pro M2",
+      //             hargaproduk: 10000000)),
+      //     ItemProduk(
+      //         produk: ProdukModel(
+      //             id: 1,
+      //             kodeproduk: "BRG003",
+      //             namaproduk: "Macbook Air M2",
+      //             hargaproduk: 10000000)),
+      //   ],
+      // ),
     );
+  }
+}
+
+class ListProduk extends StatelessWidget {
+  final List? list;
+
+  const ListProduk({Key? key, this.list}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemCount: list == null ? 0 : list!.length,
+        itemBuilder: (context, i) {
+          return ItemProduk(
+            produk: list![i],
+          );
+        });
   }
 }
 

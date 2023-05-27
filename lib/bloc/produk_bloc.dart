@@ -15,7 +15,15 @@ class ProdukBloc {
     List<ProdukModel> produks = [];
 
     for (var i = 0; i < listProduk.length; i++) {
-      produks.add(ProdukModel.fromJson(listProduk[i]));
+      var e = listProduk[i];
+      var produk = {
+        "id": int.parse(e['id']),
+        "hargaproduk": int.parse(e['hargaproduk']),
+        "kodeproduk": e['kodeproduk'],
+        "namaproduk": e['namaproduk']
+      };
+
+      produks.add(ProdukModel.fromJson(produk));
     }
 
     return produks;
