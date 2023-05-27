@@ -7,6 +7,40 @@ import 'package:tokoumb/helper/user_info.dart';
 import 'app_exception.dart';
 
 class Api {
+  Future<dynamic> put(dynamic url, dynamic data) async {
+    var token = await UserInfo().getToken();
+    var responseJSON;
+
+    try {
+      final response = await http.put(Uri.parse(url), body: jsonEncode(data), headers: {
+        HttpHeaders.authorizationHeader: "Bearer $token",
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Access-Control-Allow-Origin':
+            '*', // Allow requests from any origin (replace * with specific origins if needed)
+        'Access-Control-Allow-Methods':
+            'GET, POST, PUT, DELETE, OPTIONS', // Allow specific HTTP methods
+        'Access-Control-Allow-Headers':
+            'Origin, Content-Type, Accept', // Allow specific headers
+      });
+
+      print('response >>>');
+      print(response.statusCode);
+
+      responseJSON = _returnResponse(response);
+    } on SocketException {
+      throw FetchDataException("No Internet Connection");
+    } catch (err) {
+      print('error post api');
+      print(err);
+    }
+
+    print('response 2');
+    print(responseJSON);
+
+    return responseJSON;
+  }
+
   Future<dynamic> post(dynamic url, dynamic data) async {
     var token = await UserInfo().getToken();
     var responseJSON;

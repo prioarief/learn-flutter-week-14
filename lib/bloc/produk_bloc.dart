@@ -33,13 +33,19 @@ class ProdukBloc {
     String apiUrl = ApiUrl.createProduk;
 
     var body = {
-      "kode_produk": produk!.kodeproduk,
-      "nama_produk": produk.namaproduk,
-      "harga_produk": produk.hargaproduk.toString(),
+      "kodeproduk": produk!.kodeproduk,
+      "namaproduk": produk.namaproduk,
+      "hargaproduk": produk.hargaproduk.toString(),
     };
 
     var response = await Api().post(apiUrl, body);
     var jsonObj = json.decode(response.body);
+
+    // print("body");
+    // print(body);
+
+    // print("jsonObj");
+    // print(jsonObj);
 
     return jsonObj['status'];
   }
@@ -48,11 +54,12 @@ class ProdukBloc {
     String apiUrl = ApiUrl.updateProduk(produk.id!);
 
     var body = {
-      "kode_produk": produk.kodeproduk,
-      "nama_produk": produk.namaproduk,
-      "harga": produk.hargaproduk.toString()
+      "kodeproduk": produk.kodeproduk,
+      "namaproduk": produk.namaproduk,
+      "hargaproduk": produk.hargaproduk.toString(),
     };
-    var response = await Api().post(apiUrl, body);
+
+    var response = await Api().put(apiUrl, body);
     var jsonObj = json.decode(response.body);
     return jsonObj['data'];
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tokoumb/bloc/produk_bloc.dart';
 import 'package:tokoumb/model/produkmodel.dart';
 import 'package:tokoumb/ui/produkview.dart';
+import 'package:tokoumb/ui/produkviewlist.dart';
 
 // ignore: must_be_immutable
 class ProdukDetailView extends StatefulWidget {
@@ -62,7 +64,16 @@ class _ProdukDetailViewState extends State<ProdukDetailView> {
               AlertDialog alertDialog = AlertDialog(
                 content: const Text("Yakin ingin hapus?"),
                 actions: [
-                  OutlinedButton(onPressed: () {}, child: const Text("Ya")),
+                  OutlinedButton(
+                      onPressed: () {
+                        ProdukBloc.deleteProduk(id: widget.produk!.id)
+                            .then((value) => {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          const ProdukViewList()))
+                                });
+                      },
+                      child: const Text("Ya")),
                   OutlinedButton(
                       onPressed: () {
                         Navigator.pop(context);
