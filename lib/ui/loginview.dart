@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tokoumb/bloc/login_bloc.dart';
 import 'package:tokoumb/helper/user_info.dart';
 import 'package:tokoumb/ui/produkview.dart';
+import 'package:tokoumb/ui/produkviewlist.dart';
 import 'package:tokoumb/ui/registrasiview.dart';
 import 'package:tokoumb/widget/warning_dialog.dart';
 // Import the RegistrasiView
@@ -138,8 +139,8 @@ class _LoginViewState extends State<LoginView> {
       await UserInfo().setUserID(int.parse(value.userID.toString()));
 
       // ignore: use_build_context_synchronously
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => ProdukView()));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const ProdukViewList()));
     }, onError: (error) {
       print(error);
       print("error login");

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tokoumb/helper/user_info.dart';
 import 'package:tokoumb/ui/loginview.dart';
 import 'package:tokoumb/ui/produkview.dart';
+import 'package:tokoumb/ui/produkviewlist.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +27,7 @@ class _MyAppState extends State<MyApp> {
   void isLogin() async {
     var token = await UserInfo().getToken();
     setState(() {
-      page = token != null ? ProdukView() : const LoginView();
+      page = token != null ? ProdukViewList() : const LoginView();
     });
   }
 

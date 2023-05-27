@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tokoumb/helper/user_info.dart';
 import 'package:tokoumb/model/produkmodel.dart';
+import 'package:tokoumb/ui/loginview.dart';
 import 'package:tokoumb/ui/produkdetail.dart';
 import 'package:tokoumb/ui/produkview.dart';
 
@@ -38,7 +40,12 @@ class _ProdukViewListState extends State<ProdukViewList> {
             ListTile(
               title: const Text("Logout"),
               trailing: const Icon(Icons.logout),
-              onTap: () async {},
+              onTap: () async {
+                await UserInfo().logout();
+                // ignore: use_build_context_synchronously
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginView()));
+              },
             )
           ],
         ),
