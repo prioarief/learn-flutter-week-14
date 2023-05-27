@@ -6,22 +6,23 @@ class UserInfo {
     return pref.setString("token", value);
   }
 
-  Future setUserId(String value) async {
-    final SharedPreferences pref = await SharedPreferences.getInstance();
-    return pref.setString("userId", value);
-  }
-
   Future<String?> getToken() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    return pref.getString('token');
+
+    return pref.getString("token");
   }
 
-  Future<String?> getUserId() async {
+  Future setUserID(int value) async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    return pref.getString('userId');
+    return pref.setInt("userID", value);
   }
 
-  Future Logout() async {
+  Future<int?> getUserID() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.getInt("userID");
+  }
+
+  Future logout() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     pref.clear();
   }

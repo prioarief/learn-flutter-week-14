@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
   void isLogin() async {
     var token = await UserInfo().getToken();
     setState(() {
-      page = token != null ? ProdukView() : LoginView();
+      page = token != null ? ProdukView() : const LoginView();
     });
   }
 
