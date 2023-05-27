@@ -4,11 +4,11 @@ import 'package:tokoumb/model/produkmodel.dart';
 import 'package:tokoumb/ui/produkview.dart';
 import 'package:tokoumb/ui/produkviewlist.dart';
 
-// ignore: must_be_immutable
 class ProdukDetailView extends StatefulWidget {
-  ProdukModel? produk;
+  final ProdukModel? produk;
 
-  ProdukDetailView({Key? key, this.produk}) : super(key: key);
+  const ProdukDetailView({Key? key, this.produk}) : super(key: key);
+
   @override
   _ProdukDetailViewState createState() => _ProdukDetailViewState();
 }
@@ -24,7 +24,8 @@ class _ProdukDetailViewState extends State<ProdukDetailView> {
         child: Column(
           children: [
             Image.network(
-                'https://miro.medium.com/v2/resize:fit:640/format:webp/0*ObJbOfJnx4QIPUq9.png'),
+              'https://miro.medium.com/v2/resize:fit:640/format:webp/0*ObJbOfJnx4QIPUq9.png',
+            ),
             const Padding(padding: EdgeInsets.all(16.0)),
             Text(
               "Kode : ${widget.produk!.kodeproduk}",
@@ -39,51 +40,61 @@ class _ProdukDetailViewState extends State<ProdukDetailView> {
               style: const TextStyle(fontSize: 20.0),
             ),
             const Padding(padding: EdgeInsets.all(16.0)),
-            _tombolHapusEdit()
+            _buildTombolHapusEdit(),
           ],
         ),
       ),
     );
   }
 
-  Widget _tombolHapusEdit() {
+  Widget _buildTombolHapusEdit() {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         OutlinedButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          ProdukView(produk: widget.produk!)));
-            },
-            child: const Text('Edit')),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProdukView(produk: widget.produk!),
+              ),
+            );
+          },
+          child: const Text('Edit'),
+        ),
         OutlinedButton(
-            onPressed: () {
-              AlertDialog alertDialog = AlertDialog(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
                 content: const Text("Yakin ingin hapus?"),
                 actions: [
                   OutlinedButton(
-                      onPressed: () {
-                        ProdukBloc.deleteProduk(id: widget.produk!.id)
-                            .then((value) => {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          const ProdukViewList()))
-                                });
-                      },
-                      child: const Text("Ya")),
+                    onPressed: () {
+                      ProdukBloc.deleteProduk(id: widget.produk!.id).then(
+                        (_) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => const ProdukViewList(),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: const Text("Ya"),
+                  ),
                   OutlinedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text("Tidak")),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Tidak"),
+                  ),
                 ],
-              );
-              showDialog(context: context, builder: (context) => alertDialog);
-            },
-            child: const Text("Delete")),
+              ),
+            );
+          },
+          child: const Text("Delete"),
+        ),
       ],
     );
   }
