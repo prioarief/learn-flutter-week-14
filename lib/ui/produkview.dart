@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tokoumb/bloc/produk_bloc.dart';
+import 'package:tokoumb/helper/user_info.dart';
 import 'package:tokoumb/model/produkmodel.dart';
+import 'package:tokoumb/ui/loginview.dart';
 import 'package:tokoumb/ui/produkviewlist.dart';
 import 'package:tokoumb/widget/warning_dialog.dart';
 
@@ -48,6 +50,43 @@ class _ProdukViewState extends State<ProdukView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(judul)),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  image: DecorationImage(
+                      image: AssetImage("images/umb.jpg"),
+                      fit: BoxFit.scaleDown)),
+              child: Text(''),
+            ),
+            ListTile(
+              leading: const Icon(
+                Icons.list,
+              ),
+              title: const Text('List Produk'),
+              onTap: () async {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const ProdukViewList()));
+              },
+            ),
+            ListTile(
+              title: const Text("Logout"),
+              trailing: const Icon(Icons.logout),
+              onTap: () async {
+                await UserInfo().logout().then((value) => {
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginView()))
+                    });
+              },
+            )
+          ],
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

@@ -38,6 +38,24 @@ class _ProdukViewListState extends State<ProdukViewList> {
       drawer: Drawer(
         child: ListView(
           children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  image: DecorationImage(
+                      image: NetworkImage("https://plus.unsplash.com/premium_photo-1686604504223-47a6aef5c3f2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=928&q=80"),
+                      fit: BoxFit.scaleDown)),
+              child: Text(''),
+            ),
+            ListTile(
+              leading: const Icon(
+                Icons.add,
+              ),
+              title: const Text('Input Produk'),
+              onTap: () async {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => ProdukView()));
+              },
+            ),
             ListTile(
               title: const Text("Logout"),
               trailing: const Icon(Icons.logout),
@@ -131,6 +149,10 @@ class ItemProduk extends StatelessWidget {
       child: Card(
         child: ListTile(
           title: Text(produk.namaproduk!),
+          leading: Image.network(
+              'https://miro.medium.com/v2/resize:fit:640/format:webp/0*ObJbOfJnx4QIPUq9.png',
+              height: 50,
+              fit: BoxFit.fill),
           subtitle: Text(produk.hargaproduk.toString()),
         ),
       ),
